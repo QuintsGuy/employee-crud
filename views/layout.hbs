@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{title}}</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f9f9f9;
+        }
+
+        .navbar {
+            background-color: #007bff;
+            padding: 10px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .navbar a {
+            color: #fff;
+            text-decoration: none;
+            margin-right: 15px;
+            font-size: 16px;
+            font-weight: bold;
+            transition: color 0.3s;
+        }
+
+        .navbar a:hover {
+            color: #dfe6e9;
+        }
+
+        .navbar .brand {
+            font-size: 20px;
+            font-weight: bold;
+            margin-right: auto;
+            color: #fff;
+        }
+
+        .content {
+            padding: 20px;
+        }
+
+        .navbar a {
+            padding: 10px;
+            border-radius: 10px;
+        }
+
+        .navbar a:hover {
+            background-color: #005bbc;
+        }
+    </style>
+</head>
+<body>
+    <div class="navbar">
+        <div class="brand">Employee Manager</div>
+        <a href="/">View All Employees</a>
+        <a href="/create">Add Employee</a>
+    </div>
+
+    <div class="content">
+        {{{body}}}
+    </div>
+</body>
+</html>
