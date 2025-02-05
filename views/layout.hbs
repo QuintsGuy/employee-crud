@@ -57,12 +57,51 @@
 <body>
     <div class="navbar">
         <div class="brand">Employee Manager</div>
-        <a href="/">View All Employees</a>
-        <a href="/create">Add Employee</a>
+        <div id="postLogin-btns" style="display: none;">
+            <a href="/">View All Employees</a>
+            <a href="/create">Add Employee</a>
+            <button id="logout-btn" onclick="logout()">Logout</button>
+        </div>
+        
+        <div id="preLogin-btns">
+            <a href="/login" id="login-btn">Login</a>
+            <a href="/register" id="register-btn">Register</a>
+        </div>
     </div>
 
     <div class="content">
         {{{body}}}
     </div>
+
+    <script>
+        async function checkAuth() {
+            try {
+                const response = await fetch('/auth-check', {
+                    method: 'GET',
+                    credentials: 'include'
+                });
+
+                if (response.ok) {
+                    document.getElementById("preLogin-btns").style.display = "none";
+                    document.getElementById("postLogin-btns").style.display = "inline-block";
+                } else {
+                    document.getElementById("preLogin-btns").style.display = "inline-block";
+                    document.getElementById("postLogin-btns").style.display = "none";
+                }
+            } catch (err) {
+                console.error("Auth check failed: ", err);
+            }
+        }
+        
+        document.addEventListener("DOMContentLoaded", checkAuth);
+
+        function logout() {
+            fetch('/logout', { method: 'POST', credentials: 'include' }) // Ensure cookie is removed
+                .then(() => {
+                    window.location.href = "/logout";
+                })
+                .catch(err => console.error("Logout failed:", err));
+        }
+    </script>
 </body>
 </html>
