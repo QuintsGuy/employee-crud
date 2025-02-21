@@ -9,6 +9,7 @@ const jwt = require('jsonwebtoken');
 const cookieParser = require('cookie-parser');
 const Employee = require('./models/Employee');
 const User = require('./models/User');
+const PORT = process.env.PORT || 3000;
 require('dotenv').config();
 require('./config/passport')(passport);
 
@@ -154,6 +155,6 @@ app.use((err, req, res, next) => {
     res.status(500).render('error', { message: err.message });
 })
 
-app.listen(3000, () => {
-    console.log("Server running on http://localhost:3000.");
+app.listen(PORT, '0.0.0.0', () => {
+    console.log(`Server running on port ${PORT}`);
 });
