@@ -89,14 +89,8 @@ app.get('/logout', (req, res) => {
 
 const ensureAuthenticated = passport.authenticate('jwt', { session: false });
 
-app.get("/", ensureAuthenticated, async (req, res) => {
-    try {
-        const employees = await Employee.find();
-        res.render('view', { employees });
-    } catch (err) {
-        console.error(err);
-        res.status(500).send('Error retrieving employees.');
-    }
+app.get("/", (req, res) => {
+    res.redirect("/login");
 });
 
 app.get('/dashboard', ensureAuthenticated, async (req, res) => {
