@@ -94,12 +94,18 @@ app.get("/", (req, res) => {
 });
 
 app.get('/dashboard', ensureAuthenticated, async (req, res) => {
-    try {
-        res.render('dashboard', {user: req.user });
-    } catch (err) {
-        next(err);
-    }
+    res.render('dashboard', {user: req.user });
 })
+
+app.get('/view', ensureAuthenticated, async (req, res) => {
+    try {
+        const employees = await Employee.find().lean(); // .lean() returns plain JS objects
+        res.render('view', { employees });
+    } catch (err) {
+        console.error(err);
+        res.status(500).send("Error retrieving employee records.");
+    }
+});
 
 app.get('/create', ensureAuthenticated, (req, res) => {
     res.render('create');
