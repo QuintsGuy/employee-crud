@@ -4,7 +4,6 @@ const bodyParser = require('body-parser');
 const hbs = require('hbs');
 const methodOverride = require('method-override');
 const passport = require('passport');
-const session = require('express-session');
 const jwt = require('jsonwebtoken');
 const cookieParser = require('cookie-parser');
 const Employee = require('./models/Employee');
@@ -24,7 +23,7 @@ app.use(passport.initialize());
 
 hbs.registerHelper('eq', (a, b) => a === b);
 
-mongoose.connect(process.env.MONGO_URI, {useNewUrlParser: true, useUnifiedTopology: true })
+mongoose.connect(process.env.MONGO_URI)
     .then(() => console.log('Connected to MongoDB.'))
     .catch((err) => console.error('MongoDB connection error: ', err));
 
@@ -55,7 +54,7 @@ app.post('/login', async (req, res) => {
         const payload = { id: user.id, username: user.username };
         const token = jwt.sign(payload, process.env.JWT_SECRET, { expiresIn: '1hr' });
 
-        res.cookie("jwtToken", token, { httpOnly: true, secure: false });
+        res.cookie("jwtToken", token, { httpOnly: true, secure: process.env.NODE_ENV === 'production' });
         res.redirect('/dashboard');
     } catch (err) {
         next(err);
